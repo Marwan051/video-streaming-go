@@ -20,7 +20,7 @@ func main() {
 	cfg := config.Load()
 
 	// 3) Use pgxpool.New to get a *pgxpool.Pool. This implements the Exec/Query methods
-	conn, err := sql.Open("sqlite3", "file:videos.db?_foreign_keys=1")
+	conn, err := sql.Open("sqlite3", "file:test_db.db?_foreign_keys=1")
 	if err != nil {
 		log.Fatalf("failed to open sqlite db: %v", err)
 	}
