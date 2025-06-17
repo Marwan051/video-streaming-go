@@ -21,19 +21,16 @@ func main() {
 	log.Print("Starting video streaming server...")
 	// Load configuration
 	cfg := config.Load()
-	log.Printf("Loaded configuration: %+v", cfg)
 
-	conn, err := sql.Open("sqlite3", "/home/marwan/webprojects/video-streaming/server/videos.db")
+	conn, err := sql.Open("sqlite3", cfg.SQLiteDBPath)
 	if err != nil {
 		log.Fatalf("failed to open sqlite db: %v", err)
 	}
 	defer conn.Close()
-	log.Print("SQLite database connection established")
 
 	conn.SetMaxOpenConns(1) // SQLite doesn't like high concurrency
 	conn.SetConnMaxIdleTime(5 * time.Minute)
 
-	// 3) Ping to verify
 	if err := conn.Ping(); err != nil {
 		log.Fatalf("failed to ping sqlite: %v", err)
 	}

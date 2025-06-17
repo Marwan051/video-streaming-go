@@ -10,9 +10,7 @@ import (
 
 type Config struct {
 	Port         string
-	Dsn          string
-	CacheHost    string
-	CachePort    string
+	SQLiteDBPath string
 	ReadTimeout  time.Duration
 	WriteTimeout time.Duration
 	IdleTimeout  time.Duration
@@ -31,10 +29,8 @@ func Load() *Config {
 	godotenv.Load()
 
 	return &Config{
-		Port: getEnvVar("PORT", ":3000"),
-		Dsn:  getEnvVar("POSTGRES_DSN", ""),
-		// CacheHost:    getEnvVar("CACHE_HOST", ""),
-		// CachePort:    getEnvVar("CACHE_PORT", ""),
+		Port:         getEnvVar("PORT", ":3000"),
+		SQLiteDBPath: getEnvVar("SQLITE_DB_PATH", ""),
 		ReadTimeout:  15 * time.Second,
 		WriteTimeout: 15 * time.Second,
 		IdleTimeout:  60 * time.Second,
