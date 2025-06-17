@@ -13,20 +13,23 @@ import (
 	"server/video-streaming/internal/middleware"
 	"syscall"
 	"time"
+
+	_ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
+	log.Print("Starting video streaming server...")
 	// Load configuration
 	cfg := config.Load()
+	log.Printf("Loaded configuration: %+v", cfg)
 
-	// 3) Use pgxpool.New to get a *pgxpool.Pool. This implements the Exec/Query methods
-	conn, err := sql.Open("sqlite3", "file:test_db.db?_foreign_keys=1")
+	conn, err := sql.Open("sqlite3", "/home/marwan/webprojects/video-streaming/server/videos.db")
 	if err != nil {
 		log.Fatalf("failed to open sqlite db: %v", err)
 	}
 	defer conn.Close()
+	log.Print("SQLite database connection established")
 
-	// 2) (Optional) Set connection pool parameters
 	conn.SetMaxOpenConns(1) // SQLite doesn't like high concurrency
 	conn.SetConnMaxIdleTime(5 * time.Minute)
 
